@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{3BDE6F89-D395-41C6-A1DB-F4D295B45D45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuta.MobileApp.MAUI", "Sources\Nuta.MobileApp.MAUI\Nuta.MobileApp.MAUI.csproj", "{327E6F62-F35D-4A8A-8ADA-08D7F07350FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{327E6F62-F35D-4A8A-8ADA-08D7F07350FD} = {3BDE6F89-D395-41C6-A1DB-F4D295B45D45}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{327E6F62-F35D-4A8A-8ADA-08D7F07350FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{327E6F62-F35D-4A8A-8ADA-08D7F07350FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{327E6F62-F35D-4A8A-8ADA-08D7F07350FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{327E6F62-F35D-4A8A-8ADA-08D7F07350FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
