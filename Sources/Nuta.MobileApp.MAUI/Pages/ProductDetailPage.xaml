@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pageModels="clr-namespace:Nuta.MobileApp.MAUI.PageModels"
+    xmlns:models="clr-namespace:Nuta.MobileApp.MAUI.Models"
+    xmlns:converters="clr-namespace:Nuta.MobileApp.MAUI.Converters"
+    x:Class="Nuta.MobileApp.MAUI.Pages.ProductDetailPage"
+    x:DataType="pageModels:ProductDetailPageModel"
+    Title="Продукт">
+
+    <ContentPage.BindingContext>
+        <pageModels:ProductDetailPageModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:NutaEvaluationScoreToBrushConverter x:Key="NutaEvaluationScoreToBrushConverter" />
+            <converters:NutaEvaluationScoreToTextConverter x:Key="NutaEvaluationScoreToTextConverter" />
+            <converters:AdditiveRiskLevelToBrushConverter x:Key="AdditiveRiskLevelToBrushConverter" />
+            <converters:AdditiveRiskLevelToTextConverter x:Key="AdditiveRiskLevelToTextConverter" />
+            <converters:NutrientLevelToBrushConverter x:Key="NutrientLevelToBrushConverter" />
+            <converters:NutrientLevelToTextConverter x:Key="NutrientLevelToTextConverter" />
+            <converters:CalorieLevelToBrushConverter x:Key="CalorieLevelToBrushConverter" />
+            <converters:CalorieLevelToTextConverter x:Key="CalorieLevelToTextConverter" />
+            <converters:ProductReviewAuthorToDisplayConverter x:Key="ProductReviewAuthorToDisplayConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+            <Grid ColumnDefinitions="144,*" ColumnSpacing="16">
+                <!-- Фото продукта -->
+                <!-- <Border HeightRequest="144" WidthRequest="144" StrokeThickness="0" Background="Transparent"> -->
+                <Image Source="{Binding ProductDetail.ImageKey}" Aspect="AspectFit" />
+                <!-- </Border> -->
+
+                <!-- Панель справа от фото с названием и оценками -->
+                <VerticalStackLayout Grid.Column="1" Spacing="8">
+                    <!-- Название продукта -->
+                    <ContentView HeightRequest="60" Margin="0,4,0,0">
+                        <Label Text="{Binding ProductDetail.Name}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               LineBreakMode="WordWrap"
+                               MaxLines="2" />
+                    </ContentView>
+
+                    <HorizontalStackLayout Spacing="8">
+                        <Ellipse
+                            WidthRequest="12"
+                            HeightRequest="12"
+                            Fill="{Binding ProductDetail.Scores.NutaEvaluation.Score, Converter={StaticResource NutaEvaluationScoreToBrushConverter}}" />
+
+                        <!-- Оценка алгоритма -->
+                        <VerticalStackLayout Spacing="0">
+                            <HorizontalStackLayout Spacing="0">
+                                <Label
+                                    Text="{Binding ProductDetail.Scores.NutaEvaluation.Score, StringFormat='{0}/100'}"
+                                    FontSize="16"
+                                    FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+
+                            <Label
+                                Text="{Binding ProductDetail.Scores.NutaEvaluation.Score, Converter={StaticResource NutaEvaluationScoreToTextConverter}}"
+                                FontSize="16" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Пищевая ценность -->
+            <VerticalStackLayout Spacing="8">
+                <!-- Заголовок -->
+                <VerticalStackLayout>
+                    <Label Text="Пищевая ценность" FontSize="18" FontAttributes="Bold" />
+                    <Label Text="На 100 г продукта" Margin="0" FontSize="14" TextColor="Gray" />
+                </VerticalStackLayout>
+
+                <!-- Содержание -->
+                <VerticalStackLayout Spacing="16">
+                    <!-- Белки -->
+                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" VerticalOptions="Center">
+                        <!-- Иконка -->
+                        <Image
+                            Source="{StaticResource IconProtein}"
+                            WidthRequest="24"
+                            HeightRequest="24"
+                            VerticalOptions="Center"
+                            Grid.Column="0" />
+
+                        <!-- Заголовок и подзаголовок -->
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Padding="8,0">
+                            <Label Text="Белки" FontSize="16" TextColor="Black" />
+                            <Label
+                                Text="{Binding ProductDetail.Scores.NutaEvaluation.NutritionFacts.ProteinLevel, Converter={StaticResource NutrientLevelToTextConverter}}"
+                                FontSize="12" TextColor="Gray" />
+                        </VerticalStackLayout>
+
+                        <!-- Масса или объем -->
+                        <Label
+                            Text="{Binding ProductDetail.NutritionFacts.Protein, StringFormat='{0} г'}"
+                            FontSize="14"
+                            VerticalOptions="Center"
+                            TextColor="Gray"
+                            Grid.Column="2"
+                            Margin="0,0,8,0" />
+
+                        <!-- Индикатор -->
+                        <Ellipse
+                            Fill="{Binding ProductDetail.Scores.NutaEvaluation.NutritionFacts.ProteinLevel, Converter={StaticResource NutrientLevelToBrushConverter}}"
+                            WidthRequest="12"
+                            HeightRequest="12"
+                            VerticalOptions="Center"
+                            Grid.Column="3" />
+                    </Grid>
+
+                    <!-- Жиры -->
+                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" VerticalOptions="Center">
+                        <!-- Иконка -->
+                        <Image
+                            Source="{StaticResource IconFat}"
+                            WidthRequest="24"
+                            HeightRequest="24"
+                            VerticalOptions="Center"
+                            Grid.Column="0" />
+
+                        <!-- Заголовок и подзаголовок -->
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Padding="8,0">
+                            <Label Text="Жиры" FontSize="16" TextColor="Black" />
+                            <Label
+                                Text="{Binding ProductDetail.Scores.NutaEvaluation.NutritionFacts.FatLevel, Converter={StaticResource NutrientLevelToTextConverter}}"
+                                FontSize="12" TextColor="Gray" />
+                        </VerticalStackLayout>
+
+                        <!-- Масса или объем -->
+                        <Label
+                            Text="{Binding ProductDetail.NutritionFacts.Fat, StringFormat='{0} г'}"
+                            FontSize="14"
+                            VerticalOptions="Center"
+                            TextColor="Gray"
+                            Grid.Column="2"
+                            Margin="0,0,8,0" />
+
+                        <!-- Индикатор -->
+                        <Ellipse
+                            Fill="{Binding ProductDetail.Scores.NutaEvaluation.NutritionFacts.FatLevel, Converter={StaticResource NutrientLevelToBrushConverter}}"
+                            WidthRequest="12"
+                            HeightRequest="12"
+                            VerticalOptions="Center"
+                            Grid.Column="3" />
+                    </Grid>
+
+                    <!-- Углеводы -->
+                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" VerticalOptions="Center">
+                        <!-- Иконка -->
+                        <Image
+                            Source="{StaticResource IconCarbohydrates}"
+                            WidthRequest="24"
+                            HeightRequest="24"
+                            VerticalOptions="Center"
+                            Grid.Column="0" />
+
+                        <!-- Заголовок и подзаголовок -->
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Padding="8,0">
+                            <Label Text="Углеводы" FontSize="16" TextColor="Black" />
+                            <Label
+                                Text="{Binding ProductDetail.Scores.NutaEvaluation.NutritionFacts.CarbohydratesLevel, Converter={StaticResource NutrientLevelToTextConverter}}"
+                                FontSize="12" TextColor="Gray" />
+                        </VerticalStackLayout>
+
+                        <!-- Масса или объем -->
+                        <Label
+                            Text="{Binding ProductDetail.NutritionFacts.Carbohydrates, StringFormat='{0} г'}"
+                            FontSize="14"
+                            VerticalOptions="Center"
+                            TextColor="Gray"
+                            Grid.Column="2"
+                            Margin="0,0,8,0" />
+
+                        <!-- Индикатор -->
+                        <Ellipse
+                            Fill="{Binding ProductDetail.Scores.NutaEvaluation.NutritionFacts.CarbohydratesLevel, Converter={StaticResource NutrientLevelToBrushConverter}}"
+                            WidthRequest="12"
+                            HeightRequest="12"
+                            VerticalOptions="Center"
+                            Grid.Column="3" />
+                    </Grid>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Энергетическая ценность -->
+            <VerticalStackLayout Spacing="8">
+                <VerticalStackLayout>
+                    <Label Text="Энергетическая ценность" FontSize="18" FontAttributes="Bold" />
+                    <Label Text="На 100 г продукта" Margin="0" FontSize="14" TextColor="Gray" />
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="Auto,*,Auto,Auto" VerticalOptions="Center">
+                    <!-- Иконка -->
+                    <Image
+                        Source="{StaticResource IronCalories}"
+                        WidthRequest="24"
+                        HeightRequest="24"
+                        VerticalOptions="Center"
+                        Grid.Column="0" />
+
+                    <!-- Заголовок и подзаголовок -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" Padding="8,0">
+                        <Label Text="Калории" FontSize="16" TextColor="Black" />
+                        <Label
+                            Text="{Binding ProductDetail.Scores.NutaEvaluation.NutritionFacts.CalorieLevel, Converter={StaticResource CalorieLevelToTextConverter}}"
+                            FontSize="12" TextColor="Gray" />
+                    </VerticalStackLayout>
+
+                    <!-- Масса или объем -->
+                    <Label Text="{Binding ProductDetail.NutritionFacts.Calories, StringFormat='{0} г'}"
+                           FontSize="14"
+                           VerticalOptions="Center"
+                           TextColor="Gray"
+                           Grid.Column="2"
+                           Margin="0,0,8,0" />
+
+                    <!-- Индикатор -->
+                    <Ellipse
+                        Fill="{Binding ProductDetail.Scores.NutaEvaluation.NutritionFacts.CalorieLevel, Converter={StaticResource CalorieLevelToBrushConverter}}"
+                        WidthRequest="12"
+                        HeightRequest="12"
+                        VerticalOptions="Center"
+                        Grid.Column="3" />
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- Добавки -->
+            <VerticalStackLayout>
+                <Label Text="Добавки" FontSize="18" FontAttributes="Bold" Margin="0,0,0,-8" />
+
+                <CollectionView
+                    ItemsSource="{Binding ProductDetail.Additives}"
+                    SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Additive">
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                VerticalOptions="Center"
+                                Margin="0,16,0,0">
+                                <!-- Иконка -->
+                                <Image
+                                    Source="{StaticResource IconAdditive}"
+                                    WidthRequest="24"
+                                    HeightRequest="24"
+                                    VerticalOptions="Center"
+                                    Grid.Column="0" />
+
+                                <!-- Заголовок и подзаголовок -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" Padding="8,0">
+                                    <Label Text="{Binding Name}" FontSize="16" TextColor="Black" />
+                                    <Label
+                                        Text="{Binding RiskLevel, Converter={StaticResource AdditiveRiskLevelToTextConverter}}"
+                                        FontSize="12" TextColor="Gray" />
+                                </VerticalStackLayout>
+
+                                <!-- Индикатор -->
+                                <Ellipse
+                                    Fill="{Binding RiskLevel, Converter={StaticResource AdditiveRiskLevelToBrushConverter}}"
+                                    WidthRequest="12"
+                                    HeightRequest="12"
+                                    VerticalOptions="Center"
+                                    Grid.Column="2" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <!-- Состав -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Состав" FontSize="18" FontAttributes="Bold" />
+                <Label Text="{Binding Ingredients}" FontSize="14" LineBreakMode="WordWrap" />
+            </VerticalStackLayout>
+
+            <!-- Производитель -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Производитель" FontSize="18" FontAttributes="Bold" />
+                <Label
+                    Text="{Binding ProductDetail.Manufacturer.Name}"
+                    FontSize="14"
+                    LineBreakMode="WordWrap" />
+            </VerticalStackLayout>
+
+            <!-- Отзывы -->
+            <VerticalStackLayout Spacing="8" IsVisible="{Binding HasVisibleReviews}">
+                <VerticalStackLayout Margin="0,0,0,-8">
+                    <Label Text="Отзывы" FontSize="18" FontAttributes="Bold" />
+                    <Label Text="{Binding ProductDetail.Scores.UserScore, StringFormat='Средняя оценка: {0}'}"
+                           Margin="0"
+                           FontSize="14"
+                           TextColor="Gray" />
+                </VerticalStackLayout>
+
+                <CollectionView ItemsSource="{Binding VisibleReviewsWithComments}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ProductReview">
+                            <VerticalStackLayout Spacing="8" Margin="0,16,0,0">
+                                <VerticalStackLayout>
+                                    <HorizontalStackLayout Spacing="2">
+                                        <Image Source="{StaticResource IconReviewUser}" />
+                                        <Label
+                                            Text="{Binding Author, Converter={StaticResource ProductReviewAuthorToDisplayConverter}}"
+                                            FontSize="16" />
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Spacing="2">
+                                        <Image Source="{StaticResource IconReviewScore}" />
+                                        <Label
+                                            Text="{Binding Rating, StringFormat='{0}/5'}"
+                                            FontSize="16" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+
+                                <Label
+                                    Text="{Binding Comment}"
+                                    FontSize="14"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="3" />
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="Все отзывы"
+                        Command="{Binding OpenProductReviewsPageCommand}"
+                        Margin="0,4"
+                        TextColor="{StaticResource Lime}"
+                        FontSize="16"
+                        BackgroundColor="Transparent"
+                        BorderColor="{StaticResource Lime}"
+                        BorderWidth="1" />
+            </VerticalStackLayout>
+
+            <!-- Рекомендации -->
+            <VerticalStackLayout Spacing="8" IsVisible="{Binding HasRecommendations}">
+                <Label Text="Рекомендации" FontSize="18" FontAttributes="Bold" />
+
+                <CollectionView ItemsSource="{Binding Recommendations}"
+                                ItemsLayout="HorizontalList"
+                                ItemSizingStrategy="MeasureFirstItem"
+                                HeightRequest="150">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ProductPreviewInRecommendations">
+                            <VerticalStackLayout WidthRequest="100" Spacing="4">
+                                <!-- <Border HeightRequest="100" WidthRequest="100" StrokeThickness="0"> -->
+                                <Image Source="{Binding ImageKey}" Aspect="AspectFill" />
+                                <!-- </Border> -->
+
+                                <Label Text="{Binding Name}"
+                                       FontSize="14"
+                                       HorizontalOptions="Center"
+                                       LineBreakMode="WordWrap"
+                                       FontAttributes="Bold"
+                                       MaxLines="1" />
+
+                                <HorizontalStackLayout Spacing="2" HorizontalOptions="Center">
+                                    <Ellipse
+                                        WidthRequest="12" HeightRequest="12"
+                                        Fill="{Binding NutaEvaluationScore, Converter={StaticResource NutaEvaluationScoreToBrushConverter}}" />
+
+                                    <Label
+                                        Text="{Binding NutaEvaluationScore, StringFormat='{0}/100'}"
+                                        FontSize="14" />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <!-- Дополнительно -->
+            <!-- <VerticalStackLayout> -->
+            <!--     <Label Text="Дополнительно" FontSize="18" FontAttributes="Bold" /> -->
+            <!--     <Grid ColumnDefinitions="*,Auto" Padding="0,12" BackgroundColor="#FAFAFA"> -->
+            <!--         <Label Text="Добавить в Избранное" FontSize="16" /> -->
+            <!--         <Image Source="{StaticResource IconFavoriteAddOrRemove}" -->
+            <!--                Grid.Column="1" -->
+            <!--                HeightRequest="24" -->
+            <!--                WidthRequest="24" /> -->
+            <!-- -->
+            <!--         <Grid.GestureRecognizers> -->
+            <!--             <TapGestureRecognizer Command="{Binding AddToFavoritesCommand}" /> -->
+            <!--         </Grid.GestureRecognizers> -->
+            <!--     </Grid> -->
+            <!-- </VerticalStackLayout> -->
+
+            <VerticalStackLayout>
+                <Label Text="Дополнительно" FontSize="18" FontAttributes="Bold" />
+
+                <Border
+                    Stroke="{StaticResource Gray500}"
+                    StrokeThickness="1"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="0"
+                    Margin="0,12,0,0">
+                    <Grid ColumnDefinitions="*,Auto" Padding="10,12" BackgroundColor="White">
+                        <Label Text="Добавить в Избранное" FontSize="16" VerticalOptions="Center" />
+                        <Image Source="{StaticResource IconFavoriteAddOrRemove}"
+                               Grid.Column="1"
+                               HeightRequest="24"
+                               WidthRequest="24"
+                               VerticalOptions="Center" />
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AddToFavoritesCommand}" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

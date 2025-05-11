@@ -9,4 +9,13 @@ namespace Nuta.MobileApp.MAUI;
                            ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
+    protected override void OnCreate(Bundle? savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+
+#pragma warning disable CA1422
+        if (OperatingSystem.IsAndroidVersionAtLeast(25))
+            Window?.SetNavigationBarColor(Android.Graphics.Color.WhiteSmoke);
+#pragma warning restore CA1422
+    }
 }

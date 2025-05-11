@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pageModels="clr-namespace:Nuta.MobileApp.MAUI.PageModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="Nuta.MobileApp.MAUI.Pages.AuthorizationPage"
+    x:DataType="pageModels:ProductHistoryPageModel"
+    Title="Авторизация"
+    BackgroundColor="#F2F2F7">
+
+    <!-- Навигационная кнопка "Back" автоматически показывается в NavigationPage -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Sign in"
+            Command="{Binding LoginCommand}"
+            Order="Primary"
+            Priority="0"
+            IsEnabled="{Binding CanLogin}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <!-- Карточка с полями -->
+            <Frame
+                CornerRadius="12"
+                HasShadow="False"
+                BackgroundColor="White"
+                Padding="0">
+                <Grid
+                    RowDefinitions="Auto,1,Auto,1,Auto"
+                    ColumnDefinitions="80,*"
+                    BackgroundColor="White">
+                    <!-- Email -->
+                    <Label
+                        Text="Email"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        VerticalOptions="Center"
+                        Padding="16,12,0,12" />
+                    <Entry
+                        Text="{Binding Email}"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Keyboard="Email"
+                        VerticalOptions="Center"
+                        Placeholder="avkrivov23@gmail.com"
+                        BackgroundColor="Transparent"
+                        Margin="0,12,16,12" />
+                    <!-- Divider -->
+                    <BoxView
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        HeightRequest="1"
+                        BackgroundColor="#D1D1D6" />
+
+                    <!-- Password -->
+                    <Label
+                        Text="Password"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        VerticalOptions="Center"
+                        Padding="16,12,0,12" />
+                    <Grid
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="0,12,16,12">
+                        <Entry
+                            Text="{Binding Password}"
+                            IsPassword="{Binding IsPasswordHidden}"
+                            Placeholder="Enter your password"
+                            BackgroundColor="Transparent" />
+                        <Button
+                            BackgroundColor="Transparent"
+                            Command="{Binding TogglePasswordVisibilityCommand}"
+                            HorizontalOptions="End"
+                            VerticalOptions="Center" />
+                    </Grid>
+                    <!-- Divider -->
+                    <BoxView
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        HeightRequest="1"
+                        BackgroundColor="#D1D1D6" />
+                </Grid>
+            </Frame>
+
+            <!-- Ссылка "Forgot password?" -->
+            <Button
+                Text="Forgot password?"
+                Command="{Binding ForgotPasswordCommand}"
+                BackgroundColor="Transparent"
+                TextColor="#007AFF"
+                FontAttributes="None"
+                HorizontalOptions="Start"
+                Padding="0" />
+        </VerticalStackLayout>
+    </ContentPage.Content>
+</ContentPage>
